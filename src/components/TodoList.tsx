@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import ItemList from './ItemList';
 
@@ -9,8 +9,15 @@ interface Todo {
 }
 
 const TodoList: React.FC = () => {
-    const [todos, setTodos] = useState<Todo[]>([]);
+    const [todos, setTodos] = useState<Todo[]>(() => {
+        const tasks = localStorage.getItem('todos');
+        return tasks ? JSON.parse(tasks) : [];
+    });
     const [newTask, setNewTask] = useState<string>('');
+
+    useEffect(() => {
+        localStorage.setItem('todos', JSON.stringify(todos));
+    }, [todos]);
 
     const addTask = () => {
         const newTodo = {
