@@ -14,6 +14,9 @@ const TodoList: React.FC = () => {
         return tasks ? JSON.parse(tasks) : [];
     });
     const [newTask, setNewTask] = useState<string>('');
+    const [filter, setFilter] = useState<String>(
+        'all' || 'completed' || 'incomplete'
+    );
 
     useEffect(() => {
         localStorage.setItem('todos', JSON.stringify(todos));
@@ -29,6 +32,17 @@ const TodoList: React.FC = () => {
         setTodos([...todos, newTodo]);
         setNewTask('');
     };
+
+    const filteredTodos = todos.filter((todo) => {
+        if (filter === 'completed') {
+            return todo.isCompleted;
+        }
+        if (filter === 'incomplete') {
+            return !todo.isCompleted;
+        }
+
+        return true;
+    });
 
     const toggleCompleted = (id: number) => {
         setTodos(
@@ -48,7 +62,7 @@ const TodoList: React.FC = () => {
     };
 
     return (
-        <div className="container-md mx-auto">
+        <div className="container-md mx-auto padding-8">
             <h1 className="text-center">Lista de Tareas</h1>
             <div className="flex gap-16 justify-center">
                 <input
@@ -61,9 +75,20 @@ const TodoList: React.FC = () => {
                     Agregar
                 </button>
             </div>
-
+            <div className="flex justify-center">
+                <select
+                    className="custom-select"
+                    onChange={(e) => {
+                        setFilter(e.target.value);
+                    }}
+                >
+                    <option value="all">Todas</option>
+                    <option value="completed">Completadas</option>
+                    <option value="incomplete">Incompletas</option>
+                </select>
+            </div>
             <div className="flex flex-column gap-16">
-                {todos.map((todo) => (
+                {filteredTodos.map((todo) => (
                     <ItemList
                         key={todo.id}
                         taskId={todo.id}

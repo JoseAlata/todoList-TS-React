@@ -19,6 +19,10 @@ body {
     margin-right: auto;
 }
 
+.padding-8 {
+    padding: 8px;
+}
+
 .flex {
     display: flex;
 }
@@ -99,4 +103,19 @@ input[type='checkbox']:checked + .custom-checkbox {
 /* Mostrar el icono cuando el checkbox está marcado */
 input[type='checkbox']:checked + .custom-checkbox:after {
     transform: translate(-50%, -50%) scale(1);
+}
+
+/* Estilo del select */
+
+.custom-select {
+    width: 300px;
+    padding: 10px;
+    margin: 10px 0;
+
+    border-radius: 5px;
+    border: 1px solid #ddd;
+
+    background-color: transparent;
+
+    color: white;
 }
